@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  console.log("test");
+  // console.log("test");
 
   // DOM VARIABLES
 
@@ -47,42 +47,66 @@ $(document).ready(function () {
     }).then(function (response) {
       console.log(response);
 
-      search(response);
+      console.log(response.copyright);
+      articleTitle = response.response.docs[0].headline.main;
+      console.log(articleTitle, articleAuthor);
+      articleAuthor = response.response.docs[0].byline.original;
+
+      console.log("test");
+      for (var i = 0; i < numRecords; i++) {
+        articleTitle = response.response.docs[i].headline.main;
+        console.log(articleTitle, articleAuthor);
+        articleAuthor = response.response.docs[i].byline.original;
+
+        var article = $("<li>")
+          .attr("class", "list-group-item")
+          .html("<h2>" + articleTitle + "</h2>");
+        var author = $("<p>").text(articleAuthor);
+
+        article.append(author);
+        $(".articleContainer").append(article);
+      }
     });
   }
 
-  function search(obj) {
-    console.log($("#numRecords").val());
+  // function search(obj) {
+  //   console.log($("#numRecords").val());
 
-    clearResults();
-    for (var i = 1; i < numRecords; i++) {
-      articleTitle = obj.docs[i].headline.main;
-      console.log(articleTitle, articleAuthor);
-      articleAuthor = obj.docs[i].byline.original;
-      populateArticles(articleTitle, articleAuthor);
-    }
-    console.log("Search!");
-  }
+  //   clearResults();
+  //   for (var i = 1; i < numRecords; i++) {
+  //     articleTitle = obj.docs[i].headline.main;
+  //     console.log(articleTitle, articleAuthor);
+  //     articleAuthor = obj.docs[i].byline.original;
+  //     var article = $("<li>")
+  //       .attr("class", "list-group-item")
+  //       .html("<h2>" + articleTitle + "</h2>");
+  //     var author = $("<p>").text(articleAuthor);
 
-  function clearResults() {
-    $(".articleContainer").empty();
-    // $("#searchTerm").empty();
-    // $("#numRecords").text() = "";
-    // $("#startYear").text() = "";
-    // $("#endYear").text() = "";
+  //     article.append(author);
+  //     $(".articleContainer").append(article);
+  //   }
+  //   console.log("Search!");
+  // }
 
-    console.log("Clear Results!");
-  }
+  // function clearResults() {
+  //   $(".articleContainer").empty();
+  //   // $("#searchTerm").empty();
+  //   // $("#numRecords").text() = "";
+  //   // $("#startYear").text() = "";
+  //   // $("#endYear").text() = "";
 
-  function populateArticles(title, author) {
-    var article = $("<li>")
-      .attr("class", "list-group-item")
-      .html("<h2>" + title + "</h2>");
-    var author = $("<p>").text(author);
+  //   console.log("Clear Results!");
+  // }
 
-    article.append(author);
-    $(".articleContainer").append(article);
-  }
+  // function populateArticles(title, author) {
+  //   var article = $("<li>")
+  //     .attr("class", "list-group-item")
+  //     .html("<h2>" + title + "</h2>");
+  //   var author = $("<p>").text(author);
+
+  //   article.append(author);
+  //   $(".articleContainer").append(article);
+  // }
 
   $("#search").on("click", function (event) {
     event.preventDefault();
